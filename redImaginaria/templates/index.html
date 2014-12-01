@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript">
+  $(function() {
+    var submit_form = function(e) {
+      $.getJSON($SCRIPT_ROOT + '/_conversar', {
+        mensaje: $('#mensaje').val()
+      }, function(data) {
+        $('input[name=mensaje]').focus().select();
+	$('#mensajes ul').append(
+		$('<li>').append(
+			$('<p>').append(
+				$('<span>').attr('class', 'mensajeTX').append(data.time+" : "+data.mensaje)
+	))); 
+
+	$('#mensaje').val('');		
+      });
+      return false;
+    };
+    $('#enviar').bind('click', submit_form);
+ 
+   $('input[type=text]').bind('keydown', function(e) {
+      if (e.keyCode == 13) {
+        submit_form(e);
+      }
+    });
+
+    $('input[name=mensaje]').focus();
+  });
+
+
+$(document).ready(function(){
+//    setInterval(refreshMensajes, 5000); 
+});
+
+function refreshMensajes(){
+$.getJSON($SCRIPT_ROOT + '/_recibir', {
+        mensaje: $('#mensaje').val()
+      }, function(data) {
+        $('#mensajes ul').append(
+                $('<li>').append(
+                        $('<p>').append(
+                                $('<span>').attr('class', 'mensajeRX').append(data.result)
+        )));
+      });
+}
+
+</script>
+<div id='mensajes'>
+<ul>
+</ul>
+</div>  
+<div id='espacioChat'>
+      <dl>
+        <dt>Mensaje:
+        <dd><textarea id = "mensaje" name="mensaje" rows="5" cols="40"></textarea>
+        <dd><input id="enviar" type="submit" value="Enviar">
+      </dl>
+</div>
+
+<h2> Fuente: El Universal: México</h2>  
+<ul class="noticias">
+  <li><em>bienvenido a la red que no es Internet...</em>
+{% for post in entries %}
+	<li><h2><a href='{{ post.link }}'>
+	{{ post.title }}</a></h2></br>  
+{% endfor%}  
+</ul>
+{% endblock %}
