@@ -26,13 +26,13 @@ if (port.isOpen() == False):
 port.flushInput()
 port.flushOutput()
 
-feed = feedparser.parse('http://www.eluniversal.com.mx/rss/mexico.xml')
+#feed = feedparser.parse('http://www.eluniversal.com.mx/rss/mexico.xml')
 
-dict = {u'Peña':u'Peña=>-43', u'México': u'México-revolucionario', 'Detenidos': u'Heróicos-militantes-detenidos','detenidos':u'Heróicos-militantes-detenidos', 'normalistas': u'Heroes-normalistas'}
+#dict = {u'Peña':u'Peña=>-43', u'México': u'México-revolucionario', 'Detenidos': u'Heróicos-militantes-detenidos','detenidos':u'Heróicos-militantes-detenidos', 'normalistas': u'Heroes-normalistas'}
 
-for post in feed.entries:
-	for k, v in dict.items():
-		post.title = post.title.replace(k,v)
+#for post in feed.entries:
+#	for k, v in dict.items():
+#		post.title = post.title.replace(k,v)
 
 @app.route('/')
 def iniciar():
@@ -42,7 +42,8 @@ def iniciar():
 		'title' : 'HELLO!',
 		'time': timeString
       }
-	return render_template('index.html',**feed)
+#	return render_template('index.html',**feed)
+	return render_template('index.html')
 
 @app.route('/_conversar')
 def mandarMensaje():
@@ -59,12 +60,22 @@ def mandarMensaje():
 
 @app.route('/_recibir')
 def recibirMensaje():
+	now = datetime.datetime.now()
+        timeString = now.strftime("%Y-%m-%d %H:%M")
 	while True:
 		mensaje = port.readline()
 		if mensaje:
-			mensaje = jsonify(result=mensaje)
-		time.sleep(0.01)
-	return mensaje
+			mensajeRX = {
+				'mensaje' : mensaje,
+				'time' : timeString
+			}
+		else :
+			mensajeRX = {
+                                'mensaje' : '0000',
+                                'time' : timeString
+                        }
+		time.sleep(0.05)
+	return jsonify(time=timeString)
 
 @app.route('/_add_numbers')
 def add_numbers():
