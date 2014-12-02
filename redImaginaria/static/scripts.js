@@ -13,7 +13,7 @@ var submit_form = function(e) {
 		$('#mensaje').val('');
 	 });
 	 return false;
-	};
+};
 	$('#enviar').bind('click', submit_form);
 	$('input[type=text]').bind('keydown', function(e) {
 		if (e.keyCode == 13) {
@@ -23,16 +23,31 @@ var submit_form = function(e) {
 	$('input[name=mensaje]').focus();
 });
 
-$(document).ready(function(){
+//$(document).ready(function(){
 //	    setInterval(refreshMensajes, 5000);
-});
+//$(fucntion(){
+	$.updater({
+		//url: $SCRIPT_ROOT + '/_recibir',
+		url: '/static/test.json',
+		method: 'get',
+		interval: 1500
+	},
+	function(data, response){
+		$('#mensajes ul').append(
+			$('<li>').append(
+			$('<p>').append(
+			$('<span>').attr('class', 'mensajeRX').append(data.name)
+		)));
+	});
+//});
+//});
 
 function refreshMensajes(){
 	$.getJSON($SCRIPT_ROOT + '/_recibir',function(data) {
 	$('#mensajes ul').append(
         	$('<li>').append(
 	        $('<p>').append(
-	        $('<span>').attr('class', 'mensajeRX').append(data.time+" : "+data.mensaje)
+	        $('<span>').attr('class', 'mensajeRX').append(data.mensaje)
 	)));
 	});
 }

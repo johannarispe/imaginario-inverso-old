@@ -5,6 +5,7 @@
 <script type="text/javascript">
   var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
+<script type=text/javascript src="{{url_for('static', filename='updater.js') }}"></script>
 <script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
 <div class="page">
   <h1>Internet Inverso</h1>
