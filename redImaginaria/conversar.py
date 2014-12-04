@@ -87,14 +87,6 @@ def recibirMensaje():
            #             }
 	#	time.sleep(0.05)
 	return jsonify(mensaje=mensaje)
-
-@app.route('/_add_numbers')
-def add_numbers():
-	a = request.args.get('a', 0, type=int)
-	b = request.args.get('b', 0, type=int)
-	return jsonify(result=a + b)
-
-
 # Fire up server
 if __name__ == "__main__":
         app.run(host='0.0.0.0')

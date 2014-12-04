@@ -33,6 +33,7 @@ var submit_form = function(e) {
 		interval: 1500
 	},
 	function(data, response){
+		console.log(response);
 		$('#mensajes ul').append(
 			$('<li>').append(
 			$('<p>').append(
