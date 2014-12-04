@@ -1,12 +1,19 @@
 <!doctype html>
 <title>Internet Inverso</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+
+{% assets "css" %}
+<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+{% endassets %}
+
+{% assets "js" %}
+<script type=text/javascript src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
 <script type="text/javascript">
-  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
-<script type=text/javascript src="{{url_for('static', filename='updater.js') }}"></script>
-<script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
+
+
 <div class="page">
   <h1>Internet Inverso</h1>
   <div class="metanav">
