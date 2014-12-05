@@ -5,6 +5,7 @@ from os import path, environ
 import datetime
 import serial 
 import time
+import json
 from flask import Flask, jsonify, request, session, g, redirect, url_for, abort, render_template, flash
 from redis import StrictRedis
 from celery import Celery
@@ -36,14 +37,13 @@ def make_celery(app):
 celery = make_celery(app)
 
 # configurndo para escuchar puerta UART
-port = serial.Serial('/dev/ttyAMA0',baudrate=4800, timeout=1.0)
-if (port.isOpen() == False):
-    port.open()
+UART = serial.Serial('/dev/ttyAMA0',baudrate=4800, timeout=1.0)
+if (UART.isOpen() == False):
+	UART.open()
+UART.flushInput()
+UART.flushOutput()
 
-port.flushInput()
-port.flushOutput()
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
 	if redis.llen(app.config['REDIS_MENSAJES']):
 		flash('Task is already running at'+ app.config['REDIS_MENSAJES'], 'error')
@@ -56,28 +56,29 @@ def index():
 @celery.task(name="tasks.readSerial")
 def readSerial():
 	now = datetime.datetime.now()
-	horaRecepcion = now.strftime("%Y-%m-%d %H:%M")
+	horaRecepcion = now.strftime("%Y-%m-%d %H:%M:%S")
 	while True:
-		data = port.readline()
+		data = UART.readline()
 		if data: 
 			msg = {
-				'time' : horaRecepcion,
-				'mensaje' : data[:-1]
+				"time" : horaRecepcion,
+				"mensaje" : data
 				}
 			redis.rpush(app.config['REDIS_MENSAJES'],msg)
-			time.sleep(0.1)
+			time.sleep(0.3)
+		time.sleep(0.1)
 
 #Creando ruta para enviar mensajes
-@app.route('/_conversar')
+@app.route('/_conversar', methods=['POST'])
 def enviarMensaje():
 	now = datetime.datetime.now()
-        timeString = now.strftime("%Y-%m-%d %H:%M")
-	mensaje = request.args.get('mensaje')
-	mensaje = mensaje+'\n'
-	port.write(mensaje)
+	timeString = now.strftime("%Y-%m-%d %H:%M:%S")
+	mensaje = request.form.get('mensaje')
+	#mensaje = mensaje+'\n'
+	UART.write(mensaje.encode('UTF-8'))
         mensajeTX = {
-                'mensaje' : mensaje,
-                'time': timeString
+                "mensaje" : mensaje,
+                "time": timeString
       	}
 	return jsonify(mensajeTX)	
 
