@@ -8,8 +8,9 @@ var submit_form = function(e) {
 		$('#mensajes ul').append(
 			$('<li>').append(		
 			$('<p>').append(
-			$('<span>').attr('class', 'mensajeTX').append(data.time+" : "+data.mensaje)
+			$('<span>').attr('class', 'mensajeTX').append("Enviando : {"+data.mensaje+"} ...")
 		)));
+		setTimeout(9600);
 		$('#mensaje').val('');
 	 });
 	 return false;
@@ -20,7 +21,7 @@ var submit_form = function(e) {
 			submit_form(e);
 		}
 		});
-	$('input[name=mensaje]').focus();
+	$('#mensajes').focus();
 });
 	var horaDeInicioSession = new Date();
 	var lista = [];
@@ -43,7 +44,7 @@ var submit_form = function(e) {
 				if (lista.indexOf(index) == -1){
 				lista[index] =msg.mensaje;
 				console.log(lista[index]);
-				var msgChat = horaDelMensaje.getUTCDate() + ":" + horaDelMensaje.getMonth() + " :: " +  msg.mensaje;
+				var msgChat = horaDelMensaje.getUTCDate() + ":" + horaDelMensaje.getMonth() + ":" + horaDelMensaje.getUTCFullYear() + " :: " +  msg.mensaje;
 				$('#mensajes ul').append(
 				$('<li>').append(
 				$('<p>').append(
