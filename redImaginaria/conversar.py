@@ -85,7 +85,7 @@ def index():
 
         return redirect(url_for('index'))
 
-    uploads = Upload.query.all()
+    uploads = reversed(Upload.query.all())
     return render_template('index.html', uploads=uploads)
 
 

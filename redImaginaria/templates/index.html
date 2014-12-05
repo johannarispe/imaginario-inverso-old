@@ -59,15 +59,16 @@
   <div class="imagenesSubidas">
   {% for file in uploads %}
     <div>
-		<img src="{{ file.url }}"/>
-    </div>
-
-    <div>
-		  <a href="{{ file.url }}">
-    	 {{ file.name }}
+		<a class="" href="{{ file.url }}">
+			<div class="imagen">
+				<img class="row" src="{{ file.url }}"/>
+			</div>
+    		<div class="titulo text-center row">
+    			{{file.name}}
+    		</div>
     	</a>
 
-      <a class="deleteLink" href="{{url_for('.remove', id=file.id)}}">
+      <a class="deleteLink button" href="{{url_for('.remove', id=file.id)}}">
        Borrar
       </a>
 
@@ -81,17 +82,13 @@
   
   $(document).ready(function(){
 
-    $('a.deleteLink').click(function(e){
-      
+    $('a.deleteLink').click(function(e){     
       e.preventDefault();
-
       var a = $(this);
-
       var pswd = window.prompt('introduce la contraseña',"astros");
 
       if( pswd ){ 
-        if( pswd == "astros" ) {
-              
+        if( pswd == "astros" ) {              
 
           var base_url = window.location.href;
           base_url = base_url.substr(0, base_url.length - 1);
@@ -101,9 +98,7 @@
             url: delUrl,
             type: 'POST',
             success: function(){
-
               window.location = base_url;
-
             }
           });
 
