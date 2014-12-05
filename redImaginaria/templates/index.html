@@ -1,19 +1,122 @@
 {% extends "layout.html" %}
 {% block body %}
-<div id='mensajes'>
-<ul>
-</ul>
-</div>  
-<div id='espacioChat'>
-      <dl>
-        <dt>Mensaje:
-        <dd><textarea id = "mensaje" name="mensaje" rows="5" cols="40"></textarea>
-        <dd><input id="enviar" type="submit" value="Enviar">
-      </dl>
+
+<div id="titulo" class="row text-center">
+	<h1>Internet Inverso</h1>
 </div>
 
-<h2> Fuente: El Universal: México</h2>  
-<ul class="noticias">
-  <li><em>bienvenido a la red que no es Internet...</em>
-</ul>
+
+<div id="instrucciones" class="row">
+	
+	<div class="instruccion small-6 medium-3 columns">
+		<div class="imagen"><img src="{{url_for('static',filename='img/img.png')}}" alt=""></div>
+	</div>
+
+	<div class="instruccion small-6 medium-3 columns">
+		<div class="imagen"><img src="{{url_for('static',filename='img/img.png')}}" alt=""></div>
+	</div>
+
+	<div class="instruccion small-6 medium-3 columns">
+		<div class="imagen"><img src="{{url_for('static',filename='img/img.png')}}" alt=""></div>
+	</div>
+
+	<div class="instruccion small-6 medium-3 columns">
+		<div class="imagen"><img src="{{url_for('static',filename='img/img.png')}}" alt=""></div>
+	</div>
+
+</div>
+
+
+<div id='mensajes' class="small-12 medium-6 columns">
+	<div id='enviarMensaje'>
+		<h2>Enviar mensaje:</h2>
+
+        <textarea id = "mensaje" name="mensaje" rows="5" cols="40"></textarea>
+        <input id="enviar" type="submit" value="Enviar">	     
+	</div> <!-- #enviarMensaje -->
+	
+	<div id="mensajesRecibidos">	
+		<h2>Mensajes recibidos</h2>
+		<ul>
+		</ul>
+	</div> <!-- #mensajesRecibidos -->
+
+</div>   <!-- #mensajes -->
+ 
+
+<div id='imagenes' class="small-12 medium-6 columns">
+  <h2>Subir una imagen</h2>
+
+
+  <div id="uploader">
+  	<form method="POST" enctype="multipart/form-data">'
+      <input name="upload" type="file">'
+      <button type="submit">Upload</button>'
+    </form>'
+  </div> <!-- #uploader -->
+
+
+  <div class="imagenesSubidas">
+  {% for file in uploads %}
+    <div>
+		<img src="{{ file.url }}"/>
+    </div>
+
+    <div>
+		  <a href="{{ file.url }}">
+    	 {{ file.name }}
+    	</a>
+
+      <a class="deleteLink" href="{{url_for('.remove', id=file.id)}}">
+       Borrar
+      </a>
+
+    </div>
+  {% endfor %}
+  </div> <!-- #imagenesSubidas -->
+
+</div> <!-- #imagenes -->
+
+<script type="text/javascript">
+  
+  $(document).ready(function(){
+
+    $('a.deleteLink').click(function(e){
+      
+      e.preventDefault();
+
+      var a = $(this);
+
+      var pswd = window.prompt('introduce la contraseña',"astros");
+
+      if( pswd ){ 
+        if( pswd == "astros" ) {
+              
+
+          var base_url = window.location.href;
+          base_url = base_url.substr(0, base_url.length - 1);
+          var delUrl = base_url + a.attr('href');
+
+          $.ajax({
+            url: delUrl,
+            type: 'POST',
+            success: function(){
+
+              window.location = base_url;
+
+            }
+          });
+
+
+        }
+      }
+
+    });
+
+  });
+
+
+</script>
+
+
 {% endblock %}

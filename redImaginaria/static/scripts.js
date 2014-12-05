@@ -4,7 +4,7 @@ var submit_form = function(e) {
 		mensaje: $('#mensaje').val()
 	}, function(data) {
 		$('input[name=mensaje]').focus().select();
-		$('#mensajes ul').append(
+		$('#mensajesRecibidos ul').prepend(
 			$('<li>').append(		
 			$('<p>').append(
 			$('<span>').attr('class', 'mensajeTX').append(data.time+" : "+data.mensaje)
@@ -33,8 +33,8 @@ var submit_form = function(e) {
 		interval: 1500
 	},
 	function(data, response){
-		console.log(response);
-		$('#mensajes ul').append(
+		console.log("response:", response);
+		$('#mensajesRecibidos ul').prepend(
 			$('<li>').append(
 			$('<p>').append(
 			$('<span>').attr('class', 'mensajeRX').append(data.name)
@@ -45,7 +45,7 @@ var submit_form = function(e) {
 
 function refreshMensajes(){
 	$.getJSON($SCRIPT_ROOT + '/_recibir',function(data) {
-	$('#mensajes ul').append(
+	$('#mensajesRecibidos ul').prepend(
         	$('<li>').append(
 	        $('<p>').append(
 	        $('<span>').attr('class', 'mensajeRX').append(data.mensaje)

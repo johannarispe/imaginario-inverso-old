@@ -1,18 +1,40 @@
 <!doctype html>
-<title>Internet Inverso</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
-<script type="text/javascript">
-  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
-<script type=text/javascript src="{{url_for('static', filename='updater.js') }}"></script>
-<script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
-<div class="page">
-  <h1>Internet Inverso</h1>
-  <div class="metanav">
-  </div>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block body %}{% endblock %}
-</div>
+<html>
+	<head>
+
+		<title>Internet Inverso</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+
+
+		<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"> -->
+		<script type=text/javascript src="{{url_for('static', filename='js/modernizr.js') }}"></script>
+		<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+		<script type=text/javascript src="{{url_for('static', filename='js/foundation.min.js') }}"></script>
+
+		<script type="text/javascript">
+		  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+		</script>
+		<script type=text/javascript src="{{url_for('static', filename='updater.js') }}"></script>
+		<script type=text/javascript src="{{url_for('static', filename='scripts.js') }}"></script>
+
+
+		<link rel="stylesheet" href="static/css/app.css">
+
+		<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+
+
+		<script type=text/javascript>
+		  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+		</script>
+
+	</head>
+
+
+
+<body>
+	{% block body %}{% endblock %}
+</body>
+
+</html>

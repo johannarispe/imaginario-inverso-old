@@ -1,0 +1,19 @@
+#mensajes {
+
+	#mensajesRecibidos {
+		ul {
+
+			height: 30vh;
+			overflow-y: auto;
+			
+			&, li {
+				border: 1px solid #eee;
+			}
+
+			li {
+				padding: 10px;
+				border: 1px solid #eee;
+			}
+		}
+	}
+}
